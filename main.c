@@ -4,7 +4,7 @@
 void saisieNote();
 void testGrade();
 float calculMoyenne();
-void gestionErreur();
+int gestionErreur();
 /*************variables globales*******************************/
 float note=0,somme,nbnotes=0;
 enum{TRES_INSUFFISANT='F',INSUFFISANT='D',PASSABLE='C',BON='B',TRES_BON='A'};
@@ -13,9 +13,12 @@ int main() {
 
     while(true)
     {
+        note=-1;
         saisieNote();
-        testGrade();
-        printf("La moyenne des notes est de %0.1f\n",calculMoyenne());
+        if(gestionErreur()==0) {
+            testGrade();
+            printf("La moyenne des notes est de %0.1f\n", calculMoyenne());
+        }
     }
 
 
@@ -28,8 +31,8 @@ int main() {
 void saisieNote() {
     printf("Veuillez saisir la note\n");
     scanf("%f",&note);
-    nbnotes++;
-    somme+=note;
+
+
 }
 
 void testGrade() {
@@ -50,6 +53,18 @@ float calculMoyenne() {
     return somme/nbnotes;
 }
 
-void gestionErreur() {
+int gestionErreur() {
+    if(note>20||note<0||note==-1)
+    {
+        scanf("%*[^\n]"); //vide le scanf
+        printf("Note invalide\n");
+        return -1;
+    }
+    else
+    {
+        nbnotes++;
+        somme+=note;
+        return 0;
+    }
 
 }
